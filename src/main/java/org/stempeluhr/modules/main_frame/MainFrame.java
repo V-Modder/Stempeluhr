@@ -43,24 +43,6 @@ public class MainFrame extends ModuleFrame {
 	private String state = ""; // true = coming
 	private String stdtext = "<html><body><div style='text-align: center;color:gray'><span style='font-size:40;'><bold>Zeiterfassung</bold></span><br><br>Terminal 1</div></body></html>";
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		// java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
-		// Looging ausschalten
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainFrame frame = new MainFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public static java.util.Timer timer1;
 
 	@Override
@@ -79,9 +61,6 @@ public class MainFrame extends ModuleFrame {
 	}
 
 	private void openGoingPanel() {
-		// for (Component comp : this.contentPane.getComponents()) {
-		// comp.setVisible(false);
-		// }
 		this.goingPanel.showPanel();
 	}
 
@@ -132,7 +111,8 @@ public class MainFrame extends ModuleFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				changeJLabel(lbl_method, "<html><body><div style='text-align: center;'><span style='font-size:40'><bold>KOMMEN</bold></span><br><br>Bitte Chip</div></body></html>");
+				changeJLabel(lbl_method,
+						"<html><body><div style='text-align: center;'><span style='font-size:40'><bold>KOMMEN</bold></span><br><br>Bitte Chip</div></body></html>");
 			}
 
 		});
@@ -145,7 +125,8 @@ public class MainFrame extends ModuleFrame {
 		lblNewLabel.setBackground(Color.BLACK);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(lblNewLabel.getFont().deriveFont(22f));
-		lblNewLabel.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(7, 0, 0, 0, Color.decode("#ff80fe")), new EmptyBorder(0, 0, 30, 0)));
+		lblNewLabel.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(7, 0, 0, 0, Color.decode("#ff80fe")),
+				new EmptyBorder(0, 0, 30, 0)));
 		lblNewLabel.setOpaque(true);
 		new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -291,7 +272,9 @@ public class MainFrame extends ModuleFrame {
 		img_footer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "IP-ADRESSE: " + ip.getHostAddress() + "\nHost-Name: " + ip.getHostName(), "Details", JOptionPane.OK_CANCEL_OPTION);
+				JOptionPane.showMessageDialog(null,
+						"IP-ADRESSE: " + ip.getHostAddress() + "\nHost-Name: " + ip.getHostName(), "Details",
+						JOptionPane.OK_CANCEL_OPTION);
 			}
 
 		});
@@ -299,7 +282,8 @@ public class MainFrame extends ModuleFrame {
 		img_footer.setOpaque(true);
 		img_footer.setBorder(new EmptyBorder(10, 0, 0, 0));// top,left,bottom,right
 		contentPane.add(img_footer, BorderLayout.SOUTH);
-		img_footer.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("Logo_Transparent_1.png")).getImage().getScaledInstance(610, 80, Image.SCALE_SMOOTH)));
+		img_footer.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("Logo_Transparent_1.png"))
+				.getImage().getScaledInstance(610, 80, Image.SCALE_SMOOTH)));
 		this.setTitle("Stempel-Uhr");
 		this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("icon175x175.png")).getImage());
 	}

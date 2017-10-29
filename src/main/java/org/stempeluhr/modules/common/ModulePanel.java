@@ -30,7 +30,7 @@ public abstract class ModulePanel extends JPanel implements ActionListener, KeyL
 	}
 
 	public void propertyChange(PropertyChangeEvent event) {
-		ActionEvent evt = new ActionEvent(event, ActionEvent.ACTION_PERFORMED, Constants.CommandKeyTyped);
+		ActionEvent evt = new ActionEvent(event, ActionEvent.ACTION_PERFORMED, Constants.CommandPropertyChange);
 		this.actionPerformed(evt);
 	}
 

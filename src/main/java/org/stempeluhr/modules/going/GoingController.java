@@ -35,12 +35,12 @@ public class GoingController extends Controller implements Worker {
 		long chipID = Parser.stringToLong(param);
 		Benutzer user = this.benutzerRepository.getBy(chipID);
 		if (user == null) {
-			this.fireChangeEvent(new PropertyChangeEvent(this, Constants.labelCahnged, null, userNotFound));
+			this.showMessage(userNotFound);
 			return;
 		}
 		Zeit iscome = this.zeitRepository.getStartedTimeBy(user.getId());
 		if (iscome != null) {
-			this.fireChangeEvent(new PropertyChangeEvent(this, Constants.labelCahnged, null, wrongAction));
+			this.showMessage(wrongAction);
 			return;
 		}
 		Zeit startTime = new Zeit();
@@ -51,11 +51,20 @@ public class GoingController extends Controller implements Worker {
 		String text = haveFun;
 		text = text.replace("<FIRSTNAME>", user.getFirstname());
 		text = text.replace("<LASTNAME>", user.getLastname());
-		this.fireChangeEvent(new PropertyChangeEvent(this, Constants.labelCahnged, null, text));
+		this.showMessage(text);
+	}
+
+	public void showMessage(String msg) {
+		this.fireChangeEvent(new PropertyChangeEvent(this, Constants.labelCahnged, null, msg));
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void workerFinished(Finished args) {
-
+		this.fireChangeEvent(new PropertyChangeEvent(this, Constants.CommandClose, null, true));
 	}
 
 	public void progressChanged(ProgressChanged args) {
