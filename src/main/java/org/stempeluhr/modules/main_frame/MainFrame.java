@@ -3,13 +3,12 @@ package org.stempeluhr.modules.main_frame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -36,21 +35,28 @@ import org.stempeluhr.repository.ConnectionTestRepository;
 public class MainFrame extends ModuleFrame {
 
 	private static final long serialVersionUID = 1L;
+	private static final String ShowHelpCommand = "show_help_command";
+	private static final String Standardtext = "<html><body><div style='text-align: center;color:gray'><span style='font-size:40;'><bold>Zeiterfassung</bold></span><br><br>Terminal 1</div></body></html>";
 
 	private JLayeredPane contentPane;
 	private JLabel btnCome;
 	private JLabel btnLeave;
+	private JLabel lblTime;
+	private Timer timer;
+	private JLabel img_footer;
+	private JLabel lbl_method;
 
 	private ActionPanel goingPanel;
 	private ActionPanel comingPanel;
 	private GoingController goingController;
 	private ComingController comingController;
 
-	private String stdtext = "<html><body><div style='text-align: center;color:gray'><span style='font-size:40;'><bold>Zeiterfassung</bold></span><br><br>Terminal 1</div></body></html>";
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals(Constants.CommandMousePressed)) {
+		if (e.getSource() == this.timer) {
+			SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd.MM.yyyy HH:mm:ss");
+			this.lblTime.setText(sdf.format(new Date()));
+		} else if (e.getActionCommand().equals(Constants.CommandMousePressed)) {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e1) {
@@ -62,7 +68,31 @@ public class MainFrame extends ModuleFrame {
 			} else if (evt.getSource() == this.btnCome) {
 				this.openComingPanel();
 			}
+		} else if (e.getActionCommand().equals(ShowHelpCommand)) {
+			JOptionPane.showMessageDialog(null, "IP-ADRESSE: " + this.getHostIpAddresses(), "Details", JOptionPane.OK_CANCEL_OPTION);
 		}
+	}
+
+	private String getHostIpAddresses() {
+		String ip = "";
+		try {
+			InetAddress localhost = InetAddress.getLocalHost();
+			InetAddress[] allMyIps = InetAddress.getAllByName(localhost.getCanonicalHostName());
+			String hostname = "";
+			for (InetAddress inetAddress : allMyIps) {
+				if (inetAddress instanceof Inet4Address) {
+					if (!ip.isEmpty()) {
+						ip += ",\n";
+					}
+					ip += inetAddress.getHostAddress();
+					hostname = inetAddress.getHostName();
+				}
+			}
+			ip += "\nHost-Name: " + hostname;
+		} catch (UnknownHostException e) {
+		}
+
+		return ip;
 	}
 
 	private void openGoingPanel() {
@@ -76,7 +106,7 @@ public class MainFrame extends ModuleFrame {
 	public MainFrame() throws UnknownHostException {
 		setBackground(Color.BLACK);
 		ConnectionTestRepository connectionTestRepository = new ConnectionTestRepository();
-		boolean test = connectionTestRepository.testDbConnection();
+		connectionTestRepository.testDbConnection();
 		// if (!test) {
 		// JOptionPane.showMessageDialog(null, "Es konnte keine Verbindung
 		// zu\nFetish-Design hergestellt werden!" + "\n\nVerbindung
@@ -84,22 +114,20 @@ public class MainFrame extends ModuleFrame {
 		// System.exit(0);
 		// }
 
-		final InetAddress ip = InetAddress.getLocalHost();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// JOptionPane.showMessageDialog(null, ip.getHostName());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if (!Constants.isDebug) {
-			setExtendedState(JFrame.MAXIMIZED_BOTH);
-			this.setUndecorated(true); // Ohne Steuerung
+			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			this.setUndecorated(true);
 		}
 		this.setBounds(0, 0, 692, 320);
-		final JLabel lbl_method = new JLabel("");
 
 		this.comingController = new ComingController();
 		this.goingController = new GoingController();
 
-		changeJLabel(lbl_method, stdtext);
-		lbl_method.setForeground(Color.WHITE);
-		lbl_method.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		this.lbl_method = new JLabel("");
+		this.lbl_method.setText(Standardtext);
+		this.lbl_method.setForeground(Color.WHITE);
+		this.lbl_method.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		this.contentPane = new JLayeredPane();
 		this.contentPane.setBackground(Color.BLACK);
 		this.contentPane.setLayout(new BorderLayout(0, 0));
@@ -120,20 +148,17 @@ public class MainFrame extends ModuleFrame {
 		this.btnLeave.addMouseListener(this);
 		contentPane.add(this.btnLeave, BorderLayout.EAST);
 
-		final JLabel lblTime = new JLabel("Loading...");
-		lblTime.setForeground(Color.WHITE);
-		lblTime.setBackground(Color.BLACK);
-		lblTime.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTime.setFont(lblTime.getFont().deriveFont(22f));
-		lblTime.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(7, 0, 0, 0, Color.decode("#ff80fe")), new EmptyBorder(0, 0, 30, 0)));
-		lblTime.setOpaque(true);
-		new Timer(1000, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd.MM.yyyy HH:mm:ss");
-				lblTime.setText(sdf.format(new Date()));
-			}
-		}).start();
+		this.lblTime = new JLabel("Loading...");
+		this.lblTime.setForeground(Color.WHITE);
+		this.lblTime.setBackground(Color.BLACK);
+		this.lblTime.setHorizontalAlignment(SwingConstants.CENTER);
+		this.lblTime.setFont(lblTime.getFont().deriveFont(22f));
+		this.lblTime.setBorder(new CompoundBorder(BorderFactory.createMatteBorder(7, 0, 0, 0, Color.decode("#ff80fe")), new EmptyBorder(0, 0, 30, 0)));
+		this.lblTime.setOpaque(true);
 		this.contentPane.add(lblTime, BorderLayout.NORTH);
+
+		this.timer = new Timer(1000, this);
+		this.timer.start();
 
 		this.comingPanel = new ActionPanel();
 		this.comingPanel.setBounds(0, 0, 692, 320);
@@ -147,30 +172,20 @@ public class MainFrame extends ModuleFrame {
 		this.goingPanel.setController(this.goingController);
 		this.contentPane.add(this.goingPanel, -1);
 
-		JLabel img_footer = new JLabel("");
-		img_footer.addMouseListener(new MouseAdapter() {
+		this.img_footer = new JLabel("");
+		this.img_footer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				JOptionPane.showMessageDialog(null, "IP-ADRESSE: " + ip.getHostAddress() + "\nHost-Name: " + ip.getHostName(), "Details", JOptionPane.OK_CANCEL_OPTION);
+				MainFrame.this.actionPerformed(new ActionEvent(this, 1, ShowHelpCommand));
 			}
-
 		});
-		img_footer.setBackground(Color.BLACK);
-		img_footer.setOpaque(true);
-		img_footer.setBorder(new EmptyBorder(10, 0, 0, 0));// top,left,bottom,right
-		contentPane.add(img_footer, BorderLayout.SOUTH);
-		img_footer.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("Logo_Transparent_1.png")).getImage().getScaledInstance(610, 80, Image.SCALE_SMOOTH)));
+
+		this.img_footer.setBackground(Color.BLACK);
+		this.img_footer.setOpaque(true);
+		this.img_footer.setBorder(new EmptyBorder(10, 0, 0, 0));// top,left,bottom,right
+		this.contentPane.add(this.img_footer, BorderLayout.SOUTH);
+		this.img_footer.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("Logo_Transparent_1.png")).getImage().getScaledInstance(610, 80, Image.SCALE_SMOOTH)));
 		this.setTitle("Stempel-Uhr");
 		this.setIconImage(new javax.swing.ImageIcon(getClass().getResource("icon175x175.png")).getImage());
 	}
-
-	private void changeJLabel(final JLabel label, final String text) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				label.setText(text);
-				repaint();
-			}
-		});
-	}
-
 }
