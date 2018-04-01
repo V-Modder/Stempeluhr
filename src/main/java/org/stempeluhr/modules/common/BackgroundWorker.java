@@ -11,7 +11,8 @@ public class BackgroundWorker {
 	private volatile Object parameter;
 	private volatile Exception runException;
 
-	public BackgroundWorker() {
+	public BackgroundWorker(Worker worker) {
+		this.worker = worker;
 		this.thread = new Thread() {
 			public void run() {
 				parameters = new Parameters(parameter, false);

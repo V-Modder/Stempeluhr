@@ -40,8 +40,7 @@ public class ZeitRepository {
 	public Zeit getStartedTimeBy(long userID) {
 		try {
 			Session session = HibernateUtil.getInstance().getDBSession();
-			Query<Zeit> query = session.createQuery(
-					"FROM Zeit WHERE userid = :userID AND endTime IS NULL ORDER BY startTime DESC", Zeit.class);
+			Query<Zeit> query = session.createQuery("FROM Zeit WHERE userid = :userID AND endTime IS NULL ORDER BY startTime DESC", Zeit.class);
 			query.setParameter("userID", userID);
 			List<Zeit> user = query.list();
 			session.close();

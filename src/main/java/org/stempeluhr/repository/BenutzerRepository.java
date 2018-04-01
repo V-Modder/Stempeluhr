@@ -16,40 +16,17 @@ public class BenutzerRepository {
 
 			Query<Benutzer> query = session.createQuery("FROM Benutzer WHERE chipID = :chipID", Benutzer.class);
 			query.setParameter("chipID", chipID);
-			List<Benutzer> user = query.list();
+			List<Benutzer> userList = query.list();
 
 			session.close();
-			if (user.isEmpty()) {
+			if (userList.isEmpty()) {
 				return null;
 			}
 
-			return user.get(0);
+			return userList.get(0);
 		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
-		
 			e.printStackTrace();
-		return null;	
-		}
-	//	return null;
-	}
-	public boolean testConnection() {
-		try {
-			Session session = HibernateUtil.getInstance().getDBSession();
-
-			if (!session.isConnected())
-			{
-				return false;
-			}
-			else
-			{
-				session.close();
-				return true;
-			}
-		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
-		
-			e.printStackTrace();
-		return false;	
+			return null;
 		}
 	}
 }

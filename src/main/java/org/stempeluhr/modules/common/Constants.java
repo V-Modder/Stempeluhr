@@ -2,6 +2,8 @@ package org.stempeluhr.modules.common;
 
 public class Constants {
 
+	public static boolean isDebug = false;
+
 	public static final String CommandKeyPressed = "keyPressed";
 	public static final String CommandKeyReleased = "keyReleased";
 	public static final String CommandKeyTyped = "keyTyped";

@@ -1,10 +1,10 @@
 package org.stempeluhr.hibernate;
 
 public class DatabaseInfo {
-	private static final String DEFAULT_HOST = "hauptserver";
+	private static final String DEFAULT_HOST = "127.0.0.1";
 	private static final int DEFAULT_PORT = 1433;
 	private static final String DEFAULT_USERNAME = "sa";
-	private static final String DEFAULT_PASSWORD = "Basti1990";
+	private static final String DEFAULT_PASSWORD = "superGeheim1!";
 	private static final String DEFAULT_INSTANCE_NAME = "FETISHDESIGN";
 	private static final String DEFAULT_DB = "Zeiterfassung";
 

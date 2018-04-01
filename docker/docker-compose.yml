@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  sql:
+    image: ms_sql_server
+    container_name: ms_sql_server
+    ports: 
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=superGeheim1!
