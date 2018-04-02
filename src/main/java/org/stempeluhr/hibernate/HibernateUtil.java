@@ -4,6 +4,7 @@ import java.net.ConnectException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.stempeluhr.modules.common.Constants;
 
 public class HibernateUtil {
 	private final SessionFactory dbSessionFactory;
@@ -29,7 +30,7 @@ public class HibernateUtil {
 
 	public static HibernateUtil getInstance() throws ConnectException {
 		if (instance == null) {
-			createInstance(new DatabaseInfo());
+			createInstance(getDatabaseInfo());
 		}
 		return instance;
 	}
@@ -38,4 +39,17 @@ public class HibernateUtil {
 		return this.dbSessionFactory.openSession();
 	}
 
+	private static DatabaseInfo getDatabaseInfo() {
+		DatabaseInfo databaseInfo = new DatabaseInfo();
+		if (Constants.isDebug) {
+			databaseInfo.setHost("127.0.0.1");
+			databaseInfo.setPort(1433);
+			databaseInfo.setInstanceName(null);
+			databaseInfo.setDb("Zeiterfassung");
+			databaseInfo.setUsername("sa");
+			databaseInfo.setPassword("superGeheim1!");
+		}
+
+		return databaseInfo;
+	}
 }

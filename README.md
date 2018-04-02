@@ -2,8 +2,11 @@
 
 Some description
 
-# ToDo
-- Add right database connection infos at [DatabaseInfo](./src/main/java/org/stempeluhr/hibernate/DatabaseInfo.java)
+## Debug
+To debug the application please use -debug commandline option. 
+
+## ToDo
+- <strike>Add right database connection infos at [DatabaseInfo](./src/main/java/org/stempeluhr/hibernate/DatabaseInfo.java)</strike>
 - Change windows size in debug mode to fit all components
 - Handle database-connection/query errors
-- Configure log file
+- <strike>Configure log file</strike>

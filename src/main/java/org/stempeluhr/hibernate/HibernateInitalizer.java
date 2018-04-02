@@ -14,7 +14,7 @@ public class HibernateInitalizer {
 	public static SessionFactory initSessionFactory(DatabaseInfo dbInfo) {
 		Properties props = new Properties();
 
-		props.setProperty("hibernate.connection.url", "jdbc:sqlserver://" + dbInfo.getHost() + ":" + dbInfo.getPort() + ";databaseName=" + dbInfo.getDb());
+		props.setProperty("hibernate.connection.url", generateConnectionUrl(dbInfo));
 		props.setProperty("hibernate.connection.username", dbInfo.getUsername());
 		props.setProperty("hibernate.connection.password", dbInfo.getPassword());
 		props.setProperty("dialect", "org.hibernate.dialect.SQLServerDialect");
@@ -32,5 +32,22 @@ public class HibernateInitalizer {
 		config.addAnnotatedClass(Zeit.class);
 
 		return config.buildSessionFactory();
+	}
+
+	private static String generateConnectionUrl(DatabaseInfo dbInfo) {
+		String connection = "jdbc:sqlserver://";
+
+		connection += dbInfo.getHost();
+		if (dbInfo.getInstanceName() != null) {
+			connection += "\\" + dbInfo.getInstanceName();
+		}
+		if (dbInfo.getPort() != null) {
+			connection += ":" + dbInfo.getPort();
+		}
+		if (dbInfo.getDb() != null) {
+			connection += ";databaseName=" + dbInfo.getDb();
+		}
+
+		return connection;
 	}
 }
