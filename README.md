@@ -3,7 +3,7 @@
 Some description
 
 ## Debug
-To debug the application please use -debug commandline option. 
+To debug the application please use -debug as commandline option. 
 
 ## ToDo
 - <strike>Add right database connection infos at [DatabaseInfo](./src/main/java/org/stempeluhr/hibernate/DatabaseInfo.java)</strike>
