@@ -31,6 +31,7 @@ import org.stempeluhr.modules.common.ActionPanel;
 import org.stempeluhr.modules.common.Constants;
 import org.stempeluhr.modules.common.ModuleFrame;
 import org.stempeluhr.modules.going.GoingController;
+import org.stempeluhr.repository.ConnectionTestRepository;
 
 public class MainFrame extends ModuleFrame {
 
@@ -102,9 +103,8 @@ public class MainFrame extends ModuleFrame {
 	}
 
 	public MainFrame() throws UnknownHostException {
-		// ConnectionTestRepository connectionTestRepository = new
-		// ConnectionTestRepository();
-		// connectionTestRepository.testDbConnection();
+		ConnectionTestRepository connectionTestRepository = new ConnectionTestRepository();
+		connectionTestRepository.testDbConnection();
 		// if (!test) {
 		// JOptionPane.showMessageDialog(null, "Es konnte keine Verbindung
 		// zu\nFetish-Design hergestellt werden!" + "\n\nVerbindung
