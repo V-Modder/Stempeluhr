@@ -41,7 +41,7 @@ public class HibernateInitalizer {
 		if (dbInfo.getInstanceName() != null) {
 			connection += "\\" + dbInfo.getInstanceName();
 		}
-		if (dbInfo.getPort() != null) {
+		if (dbInfo.getPort() != null && dbInfo.getPort() != 1433) {
 			connection += ":" + dbInfo.getPort();
 		}
 		if (dbInfo.getDb() != null) {

@@ -114,11 +114,11 @@ public class MainFrame extends ModuleFrame {
 
 		this.setBackground(Color.BLACK);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(0, 0, 692, 320);
+		this.setBounds(0, 0, 610, 320);
 		if (!Constants.isDebug) {
 			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			this.setUndecorated(true);
-			this.setBounds(0, 0, 700, 380);
+			this.setBounds(0, 0, 610, 320);
 		}
 		this.setTitle("Stempel-Uhr");
 		this.setIconImage(new ImageIcon(this.getClass().getResource("icon175x175.png")).getImage());
@@ -126,13 +126,13 @@ public class MainFrame extends ModuleFrame {
 		this.contentPane = new JLayeredPane();
 		this.contentPane.setBackground(Color.BLACK);
 		this.contentPane.setLayout(new BorderLayout(0, 0));
-		this.contentPane.setPreferredSize(new Dimension(692, 320));
+		this.contentPane.setPreferredSize(new Dimension(610, 320));
 		this.setContentPane(contentPane);
 
 		this.mainPanel = new JPanel();
 		this.mainPanel.setBackground(Color.BLACK);
-		this.mainPanel.setPreferredSize(new Dimension(692, 320));
-		this.mainPanel.setBounds(0, 0, 692, 320);
+		this.mainPanel.setPreferredSize(new Dimension(610, 320));
+		this.mainPanel.setBounds(0, 0, 610, 320);
 		this.mainPanel.setLayout(new BorderLayout());
 		this.contentPane.add(this.mainPanel);
 		this.contentPane.setLayer(this.mainPanel, 0);
@@ -179,14 +179,14 @@ public class MainFrame extends ModuleFrame {
 		this.mainPanel.add(this.img_footer, BorderLayout.SOUTH);
 
 		this.comingPanel = new ActionPanel();
-		this.comingPanel.setBounds(0, 0, 692, 320);
+		this.comingPanel.setBounds(0, 0, 610, 320);
 		this.comingPanel.setTitel("Kommen");
 		this.comingPanel.setController(new ComingController());
 		this.contentPane.add(this.comingPanel);
 		this.contentPane.setLayer(this.comingPanel, 1);
 
 		this.goingPanel = new ActionPanel();
-		this.goingPanel.setBounds(0, 0, 692, 320);
+		this.goingPanel.setBounds(0, 0, 610, 320);
 		this.goingPanel.setTitel("Gehen");
 		this.goingPanel.setController(new GoingController());
 		this.contentPane.add(this.goingPanel);

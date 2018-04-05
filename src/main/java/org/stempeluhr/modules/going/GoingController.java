@@ -14,6 +14,7 @@ import org.stempeluhr.modules.common.PanelController;
 import org.stempeluhr.modules.common.Worker;
 import org.stempeluhr.repository.BenutzerRepository;
 import org.stempeluhr.repository.ZeitRepository;
+import org.stempeluhr.util.DateHelper;
 import org.stempeluhr.util.Parser;
 
 public class GoingController extends PanelController implements Worker {
@@ -48,10 +49,12 @@ public class GoingController extends PanelController implements Worker {
 		}
 
 		comingTime.setEndTime(new Date());
-		this.zeitRepository.save(comingTime);
+		comingTime.setTotalTime(this.calcTotalTime(comingTime.getStartTime(), comingTime.getEndTime()));
+		this.zeitRepository.update(comingTime);
 
 		this.showMessage(this.buildPersonalizedMessage(user));
 	}
+
 
 	public void workerFinished(Finished args) {
 		this.fireChangeEvent(new PropertyChangeEvent(this, Constants.CommandClose, null, true));
@@ -68,5 +71,9 @@ public class GoingController extends PanelController implements Worker {
 
 	private String buildPersonalizedMessage(Benutzer user) {
 		return ThanksForUsing.replace("<FIRTSNAME>", user.getFirstname()).replace("<LASTNAME>", user.getLastname());
+	}
+	
+	private Double calcTotalTime(Date start, Date end) {
+		return DateHelper.getDifferenceInHours(start, end);
 	}
 }
