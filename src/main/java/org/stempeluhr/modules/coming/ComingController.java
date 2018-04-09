@@ -20,7 +20,7 @@ public class ComingController extends PanelController implements Worker {
 
 	private static final String UserNotFound = "<html><body><div style='text-align: center;'><span style='font-size:20;color:red'>Achtung<br>Benutzer nicht gefunden</span></div></body></html>";
 	private static final String UserAlreadyStartedToWork = "<html><body><div style='text-align: center;'><span style='font-size:20;color:red'>Achtung<br>Es wurde falsch gebucht.<br>Bitte erst GEHEN!</span></div></body></html>";
-	private static final String HaveFun = "<html><body><div style='text-align: center;'><span style='font-size:20'>Viel Spass beim Arbeiten<br><br><FIRTSNAME> <LASTNAME></span></div></body></html>";
+	private static final String HaveFun = "<html><body><div style='text-align: center;'><span style='font-size:20'>Viel Spaß beim Arbeiten<br><br><FIRTSNAME> <LASTNAME></span></div></body></html>";
 
 	private BenutzerRepository benutzerRepository = new BenutzerRepository();
 	private ZeitRepository zeitRepository = new ZeitRepository();

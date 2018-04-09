@@ -21,7 +21,7 @@ public class GoingController extends PanelController implements Worker {
 
 	private static final String UserNotFound = "<html><body><div style='text-align: center;'><span style='font-size:20;color:red'>Achtung<br>Benutzer nicht gefunden</span></div></body></html>";
 	private static final String UserHasNotComeYet = "<html><body><div style='text-align: center;'><span style='font-size:20;color:red'>Achtung<br>Es wurde falsch gebucht.<br>Bitte erst kommen!</span></div></body></html>";
-	private static final String ThanksForUsing = "<html><body><div style='text-align: center;'><span style='font-size:20'>Vielen Dank<br><FIRTSNAME> <LASTNAME><br>Schönen Feierabend</span></div></body></html>";
+	private static final String ThanksForUsing = "<html><body><div style='text-align: center;'><span style='font-size:20'>Vielen Dank<br><FIRTSNAME> <LASTNAME><br>Schönen Feierabend<br>Gerabeitete Zeit: <TIME></span></div></body></html>";
 
 	private BenutzerRepository benutzerRepository = new BenutzerRepository();
 	private ZeitRepository zeitRepository = new ZeitRepository();
@@ -49,10 +49,11 @@ public class GoingController extends PanelController implements Worker {
 		}
 
 		comingTime.setEndTime(new Date());
-		comingTime.setTotalTime(this.calcTotalTime(comingTime.getStartTime(), comingTime.getEndTime()));
+		double workTime = this.calcTotalTime(comingTime.getStartTime(), comingTime.getEndTime());
+		comingTime.setTotalTime(workTime);
 		this.zeitRepository.update(comingTime);
 
-		this.showMessage(this.buildPersonalizedMessage(user));
+		this.showMessage(this.buildPersonalizedMessage(user, workTime));
 	}
 
 
@@ -69,8 +70,19 @@ public class GoingController extends PanelController implements Worker {
 		bw.runWorkerAsync(param.toString());
 	}
 
-	private String buildPersonalizedMessage(Benutzer user) {
-		return ThanksForUsing.replace("<FIRTSNAME>", user.getFirstname()).replace("<LASTNAME>", user.getLastname());
+	private String buildPersonalizedMessage(Benutzer user, double time) {
+		int hour = (int) time;
+		double minute = time - (int) (time);
+		minute = Math.round(minute * 60);
+		String workingTime = "";
+		if (hour > 0) {
+			workingTime += (int) hour + "Std ";
+		}
+		workingTime += (int) minute + "Min";
+		
+		return ThanksForUsing.replace("<FIRTSNAME>", user.getFirstname())
+				.replace("<LASTNAME>", user.getLastname())
+				.replace("<TIME>", workingTime);
 	}
 	
 	private Double calcTotalTime(Date start, Date end) {
