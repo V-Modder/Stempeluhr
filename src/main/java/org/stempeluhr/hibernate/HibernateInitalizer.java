@@ -17,12 +17,17 @@ public class HibernateInitalizer {
 		props.setProperty("hibernate.connection.url", generateConnectionUrl(dbInfo));
 		props.setProperty("hibernate.connection.username", dbInfo.getUsername());
 		props.setProperty("hibernate.connection.password", dbInfo.getPassword());
+		props.setProperty("hibernate.show_sql", "true");
+		props.setProperty("hibernate.cache.use_query_cache", "true");
+		props.setProperty("hibernate.cache.use_second_level_cache", "true");
+		props.setProperty("hibernate.cache.default_cache_concurrency_strategy", "READ_WRITE");
 		props.setProperty("dialect", "org.hibernate.dialect.SQLServerDialect");
 
-		props.put("hibernate.hikari.connectionTimeout", "5000");
-		props.put("hibernate.hikari.minimumIdle", "1");
-		props.put("hibernate.hikari.maximumPoolSize", "5");
-		props.put("hibernate.hikari.idleTimeout", "100");
+		props.setProperty("hibernate.connection.provider_class", "com.zaxxer.hikari.hibernate.HikariConnectionProvider");
+		props.setProperty("hibernate.hikari.connectionTimeout", "5000");
+		props.setProperty("hibernate.hikari.minimumIdle", "1");
+		props.setProperty("hibernate.hikari.maximumPoolSize", "5");
+		props.setProperty("hibernate.hikari.idleTimeout", "100");
 
 		Configuration config = new Configuration();
 		config.addPackage("com.concretepage.persistence");
