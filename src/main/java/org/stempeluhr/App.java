@@ -17,6 +17,9 @@ public class App {
 			Constants.isDebug = true;
 			Logger.getRootLogger().setLevel(Level.DEBUG);
 		}
+		if (Arrays.stream(args).anyMatch(arg -> arg.equals("-v"))) {
+			Logger.getRootLogger().setLevel(Level.DEBUG);
+		}
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
