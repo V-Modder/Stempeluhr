@@ -18,9 +18,6 @@ public class HibernateInitalizer {
 		props.setProperty("hibernate.connection.username", dbInfo.getUsername());
 		props.setProperty("hibernate.connection.password", dbInfo.getPassword());
 		props.setProperty("hibernate.show_sql", "true");
-		props.setProperty("hibernate.cache.use_query_cache", "true");
-		props.setProperty("hibernate.cache.use_second_level_cache", "true");
-		props.setProperty("hibernate.cache.default_cache_concurrency_strategy", "READ_WRITE");
 		props.setProperty("dialect", "org.hibernate.dialect.SQLServerDialect");
 
 		props.setProperty("hibernate.connection.provider_class", "com.zaxxer.hikari.hibernate.HikariConnectionProvider");
