@@ -20,12 +20,7 @@ public class HibernateUtil {
 	}
 
 	public static void createInstance(DatabaseInfo dbInfo) throws ConnectException {
-		try {
-			instance = new HibernateUtil(dbInfo);
-		} catch (ExceptionInInitializerError e) {
-			e.printStackTrace();
-			throw new ConnectException("Could not connect to database");
-		}
+		instance = new HibernateUtil(dbInfo);
 	}
 
 	public static HibernateUtil getInstance() throws ConnectException {
